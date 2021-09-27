@@ -66,3 +66,36 @@ exports.findOne = async(collection, query) => {
         throw e;
     }
 }
+
+exports.insertOne = async(collection, data) => {
+    try {
+        await exports.init();
+        let ds = await this.mongoCon.db(process.env.MONGO_NAME).collection(collection).insertOne(data);
+        await exports.close();
+        return ds
+    } catch (e) {
+        throw e;
+    }
+}
+
+exports.updateOne = async(collection, filtro, data) => {
+    try {
+        await exports.init();
+        let ds = await this.mongoCon.db(process.env.MONGO_NAME).collection(collection).updateOne(filtro, { '$set': data });
+        await exports.close();
+        return ds
+    } catch (e) {
+        throw e;
+    }
+}
+
+exports.deleteOne = async(collection, filtro) => {
+    try {
+        await exports.init();
+        let ds = await this.mongoCon.db(process.env.MONGO_NAME).collection(collection).deleteOne(filtro);
+        await exports.close();
+        return ds
+    } catch (e) {
+        throw e;
+    }
+}
