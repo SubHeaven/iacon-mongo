@@ -37,7 +37,7 @@ env.config();
 
 exports.init = async() => {
     if (!this.mongoCon || !this.mongoCon.topology.isConnected()) {
-        this.mongoCon = await promisify(MongoClient.connect)(process.env.MONGO_STRING, mongoOptions);
+        this.mongoCon = await promisify(MongoClient.connect)(process.env.MONGO_STRING.trim(), mongoOptions);
     }
 }
 
@@ -48,7 +48,7 @@ exports.close = async() => {
 exports.find = async(collection, query) => {
     try {
         await exports.init();
-        let ds = await this.mongoCon.db(process.env.MONGO_NAME).collection(collection).find(query).toArray();
+        let ds = await this.mongoCon.db(process.env.MONGO_NAME.trim()).collection(collection).find(query).toArray();
         await exports.close();
         return ds
     } catch (e) {
@@ -59,7 +59,7 @@ exports.find = async(collection, query) => {
 exports.findOne = async(collection, query) => {
     try {
         await exports.init();
-        let ds = await this.mongoCon.db(process.env.MONGO_NAME).collection(collection).findOne(query);
+        let ds = await this.mongoCon.db(process.env.MONGO_NAME.trim()).collection(collection).findOne(query);
         await exports.close();
         return ds
     } catch (e) {
@@ -70,7 +70,7 @@ exports.findOne = async(collection, query) => {
 exports.insertOne = async(collection, data) => {
     try {
         await exports.init();
-        let ds = await this.mongoCon.db(process.env.MONGO_NAME).collection(collection).insertOne(data);
+        let ds = await this.mongoCon.db(process.env.MONGO_NAME.trim()).collection(collection).insertOne(data);
         await exports.close();
         return ds
     } catch (e) {
@@ -81,7 +81,7 @@ exports.insertOne = async(collection, data) => {
 exports.updateOne = async(collection, filtro, data) => {
     try {
         await exports.init();
-        let ds = await this.mongoCon.db(process.env.MONGO_NAME).collection(collection).updateOne(filtro, { '$set': data });
+        let ds = await this.mongoCon.db(process.env.MONGO_NAME.trim()).collection(collection).updateOne(filtro, { '$set': data });
         await exports.close();
         return ds
     } catch (e) {
@@ -92,7 +92,7 @@ exports.updateOne = async(collection, filtro, data) => {
 exports.deleteOne = async(collection, filtro) => {
     try {
         await exports.init();
-        let ds = await this.mongoCon.db(process.env.MONGO_NAME).collection(collection).deleteOne(filtro);
+        let ds = await this.mongoCon.db(process.env.MONGO_NAME.trim()).collection(collection).deleteOne(filtro);
         await exports.close();
         return ds
     } catch (e) {
